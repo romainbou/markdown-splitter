@@ -1,0 +1,7 @@
+[package]
+name = "markdown_splitter"
+version = "0.1.0"
+authors = ["Romain Bouyé <romain@bouye.fr>"]
+
+[dependencies]
+regex = "1.1.6"
