@@ -2,6 +2,7 @@
 name = "markdown_splitter"
 version = "0.1.0"
 authors = ["Romain Bouyé <romain@bouye.fr>"]
+edition = "2018"
 
 [dependencies]
-regex = "1.1.6"
+structopt = "0.3"

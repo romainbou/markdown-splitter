@@ -1,17 +1,10 @@
 use std::fs::File;
 use std::io::prelude::*;
+use structopt::StructOpt;
 
 fn write_file(filename: &str, contents: String) -> std::io::Result<()> {
     let mut file = File::create(filename).expect("Unable to create file");
     file.write_all(contents.as_bytes())
-}
-
-fn read_file(filename: &str) -> String {
-    let mut file = File::open(filename).expect("Unable to open");
-    let mut contents = String::new();
-    file.read_to_string(&mut contents)
-        .expect("Couldn't read file");
-    return contents;
 }
 
 // Returns line number of the first occurence of a pattern in a string
@@ -61,9 +54,19 @@ fn export_by_pattern(pattern: String, text: &mut String) -> String{
     return sub_text;
 }
 
+#[derive(StructOpt)]
+struct Cli {
+    /// The path to the markdown file to read
+    #[structopt(parse(from_os_str))]
+    path: std::path::PathBuf,
+}
+
 fn main() {
 
-    let mut file_contents = read_file("README.md");
+    let args = Cli::from_args();
+    let mut file_contents = std::fs::read_to_string(&args.path)
+        .expect("could not read file");
+
     let sub_text = export_by_pattern("".to_string(), &mut file_contents);
 
     write_file("export.md", sub_text).unwrap();
