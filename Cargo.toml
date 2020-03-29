@@ -4,5 +4,13 @@ version = "0.1.0"
 authors = ["Romain Bouyé <romain@bouye.fr>"]
 edition = "2018"
 
+[lib]
+name = "markdown_splitter"
+path = "src/lib.rs"
+
+[[bin]]
+name = "mds"
+path = "src/bin.rs"
+
 [dependencies]
 structopt = "0.3"
