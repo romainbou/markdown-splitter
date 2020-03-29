@@ -2,13 +2,30 @@ use std::fs::File;
 use std::io::prelude::*;
 use structopt::StructOpt;
 
+/// Writes `contents` into the file with the given `filename`
+///
 fn write_file(filename: &str, contents: String) -> std::io::Result<()> {
     let mut file = File::create(filename).expect("Unable to create file");
     file.write_all(contents.as_bytes())
 }
 
-// Returns line number of the first occurence of a pattern in a string
-// -1 otherwive
+/// Returns line number of the first occurence of a pattern in a string
+///
+/// If no reslut is found in the given scope (from start to end) it returns `-1`
+///
+/// # Examples
+///
+/// ```
+/// let result = find_pattern("pattern".to_string(), &mut "pattern".to_string(), 1, 1);
+/// assert_eq!(result, 1);
+/// ```
+///
+/// # Failures
+/// No result to find
+/// ```
+/// let result = find_pattern("".to_string(), &mut "".to_string(), 0, 0);
+/// assert_eq!(result, -1);
+/// ```
 fn find_pattern(pattern: String, text: &mut String, start: i32, end: i32) -> i32 {
 
     for (line_number, line) in text.as_str().lines().enumerate() {
@@ -25,6 +42,14 @@ fn find_pattern(pattern: String, text: &mut String, start: i32, end: i32) -> i32
     return -1;
 }
 
+/// Returns a part of a given text between lines `start` and `end`
+///
+/// # Examples
+///
+/// ```
+/// let result = split_text(&mut "line1\nline2\nline3".to_string(), 2, 2);
+/// assert_eq!(result, "line2".to_string());
+/// ```
 fn split_text(text: &mut String, start: i32, end: i32) -> String{
     let mut sub_text: String = "".to_string();
     for (line_number, line) in text.as_str().lines().enumerate() {
@@ -37,6 +62,8 @@ fn split_text(text: &mut String, start: i32, end: i32) -> String{
     return sub_text;
 }
 
+/// Returns the text between the `<!-- export -->` `<!-- /export -->` tags
+///
 fn export_by_pattern(pattern: String, text: &mut String) -> String{
 
     let mut text = text.clone();
@@ -69,6 +96,53 @@ fn main() {
 
     let sub_text = export_by_pattern("".to_string(), &mut file_contents);
 
-    write_file("export.md", sub_text).unwrap();
+    if sub_text.chars().count() <= 0 {
+        println!("Nothing to export");
+        return;
+    }
 
+    write_file("export.md", sub_text).unwrap();
+    println!("Wrote in file `export.md`");
+
+}
+
+
+#[cfg(test)]
+mod tests {
+    
+    use super::*;
+
+    // find_pattern
+    #[test]
+    fn find_pattern_empty() {
+        assert_eq!(find_pattern("".to_string(), &mut "".to_string(), 1, 1), -1);
+    }
+
+    #[test]
+    fn find_pattern_found() {
+        assert_eq!(find_pattern("pattern".to_string(), &mut "pattern".to_string(), 1, 1), 1);
+    }
+
+    #[test]
+    fn find_pattern_line2() {
+        assert_eq!(find_pattern("pattern".to_string(), &mut "line1\npattern".to_string(), 1, 2), 2);
+    }
+
+    #[test]
+    fn find_pattern_out_of_scope() {
+        assert_eq!(find_pattern("pattern".to_string(), &mut "pattern".to_string(), 2, 2), -1);
+    }
+
+    // split_text
+    #[test]
+    fn split_text_example() {
+        let result = split_text(&mut "line1\nline2\nline3".to_string(), 1, 3);
+        assert_eq!(result, "line2".to_string());
+    }
+    
+    #[test]
+    fn split_text_empty() {
+        let result = split_text(&mut "line1\nline2\nline3".to_string(), 2, 2);
+        assert_eq!(result, "".to_string());
+    }
 }
