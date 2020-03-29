@@ -24,5 +24,5 @@ fn main() {
     }
 
     write_file(&args.output, sub_text).unwrap();
-    println!("Wrote in file `{}`", &args.output.display());
+    println!("`{}` created", &args.output.display());
 }

@@ -1,6 +1,6 @@
 # Markdown Splitter
 
-Utiliy tool to split a Markdown file into chunks following annotations
+Utility tool to split a Markdown file into chunks following annotations
 
 ## Annotation syntax
 
@@ -33,17 +33,41 @@ mds markdown.md
 
 ```bash
 tree
-
+.
+├── export.md
+├── markdown.md
+├── part1.md
+└── part-two.md
 ```
 
 # Options
 
 ```bash
-mds -v markdown.md
-export.md created
-part1.md created
-part-two.md created
+mds markdown.md
+`export.md` created
+`part1.md` created
+`part-two.md` created
+```
+
+Specifying a default output file
+```bash
+mds markdown.md -o export.md
+`export.md` created
 ```
 
 # Use Case
 Maintaining a diary or a blog in one file with annotations. This tool allows to split the file into multiple markdown files for each articles. Those markdown articles are now easy to publish with static site generators like Gatsby.
+
+# Build
+```bash
+cargo build
+```
+
+# Test
+```bash
+cargo test
+```
+
+# TODO
+- [ ] Support multiple export tags per file.
+- [ ] Support named export tags.
