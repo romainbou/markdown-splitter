@@ -16,13 +16,6 @@ fn main() {
     let args = Cli::from_args();
     let mut file_contents = std::fs::read_to_string(&args.path).expect("could not read file");
 
-    let sub_text = export_by_pattern("".to_string(), &mut file_contents);
-
-    if sub_text.chars().count() <= 0 {
-        println!("Nothing to export");
-        return;
-    }
-
-    write_file(&args.output, sub_text).unwrap();
-    println!("`{}` created", &args.output.display());
+    let parts = traverse_text(&mut file_contents);
+    save_parts(&args.output.to_str().unwrap(), parts);
 }

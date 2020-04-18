@@ -21,6 +21,7 @@ This contents will generate a new `part1.md`
 
 <!-- export part-two.md -->
 This contents will generate a new `part-two.md`
+With multiple lines
 <!-- /export -->
 
 ```
@@ -69,5 +70,6 @@ cargo test
 ```
 
 # TODO
-- [ ] Support multiple export tags per file.
-- [ ] Support named export tags.
+- [x] Support multiple export tags per file.
+- [x] Support named export tags.
+- [ ] Better tags parsing.
