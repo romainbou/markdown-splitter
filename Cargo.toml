@@ -1,8 +1,15 @@
 [package]
 name = "markdown_splitter"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Romain Bouyé <romain@bouye.fr>"]
 edition = "2018"
+description = "Utility tool to split a Markdown file into chunks from annotations"
+readme = "README.md"
+repository = "https://github.com/romainbou/markdown-splitter"
+homepage = "https://github.com/romainbou/markdown-splitter"
+license = "Apache-2.0"
+keywords = ["markdown"]
+categories = ["command-line-utilities"]
 
 [lib]
 name = "markdown_splitter"

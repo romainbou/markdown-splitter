@@ -81,6 +81,8 @@ pub struct TextPart {
     contents: String
 }
 
+/// Extract parts of of the text if their associated filename
+///
 pub fn traverse_text(text: &mut String) -> Vec<TextPart> {
 
     let mut part_collection: Vec<TextPart> = Vec::new();
@@ -123,6 +125,8 @@ pub fn traverse_text(text: &mut String) -> Vec<TextPart> {
     part_collection
 }
 
+/// For each parts, save them a file with their filename
+///
 pub fn save_parts(default_filename: &str, parts: Vec<TextPart>) {
     for part in parts {
         let mut filename = part.filename;
